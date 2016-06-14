@@ -3,23 +3,32 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"os"
 )
 
 func main() {
 	conf, _ := parseArgs()
-	fmt.Printf("Hello, %s\n", conf.Arg)
+	fmt.Printf("Hello, %v, %v, %v\n", conf.Str, conf.Num, conf.Flg)
 }
 
 type Config struct {
-	Arg string
+	Str string
+	Num int
+	Flg bool
 }
 
 func parseArgs() (Config, error) {
-	arg1 := os.Args[1]
+	// flag
+	strPtr := flag.String("word", "foo", "a string")
+	intPtr := flag.Int("number", 56, "an int")
+	flgPtr := flag.Bool("work", false, "a bool")
+
+	flag.Parse()
 
 	return Config{
-		Arg: arg1,
+		Str: *strPtr,
+		Num: *intPtr,
+		Flg: *flgPtr,
 	}, nil
 }
